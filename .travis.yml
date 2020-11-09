@@ -15,13 +15,14 @@ install:
   - npm ci # faster, goes only from package-lock
 before_script:
   - psql -c 'create database "lauras-first-app-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
-
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: lauras-first-app
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: KHMt2It/6h1SJ3cA2HHP2EjkXKe9pPOosLdQbwNhM7whHc+q3i9zSm6g2pXU/2kHZHS1gl7vGi6cFNYAV7j42u80uzhO4ZDWUhYnQFuPpsZ/RjmigUGXoYiFe38GCt8a1UpLW86RYWzgLBlyChXtFAVWhPvIafpHvTGNSsaFGZlkisHjXBpPSs1OcllfAL8GkvGQoffsWBPXnhAMxJIddHw83+B42txl3qT6P1AC0BhTd+dPGXh0AweUgZWcOtJlN/JUQtPWb2H7b+VIT8IhpQpaXEaeHEetV+Goq+sEhxPPqC5MxV9OIGKO8U0p0GKWMc6nfbtcL1kt8Ahnh/o7TnWrEHDDASmveWrgdRTuQTxErWhABAQsM9AkcJRDwQcRD10BGL3zUUrUs/46dQHL8KPGPcsiYIVTW9WKLDHfoRgwLoRW8Rpt1VXcSDBlFaDw59eLk/5q232R2n6GnGNb8kbvR2vnnou+1nOpbOgf7OT7S1c3OvJN+eSdHLluir5G99R7FfU+ynZDpo9BQGGFW5TItmiVlP3c8Kf3oyYMYmRxk5mxum0o73IScmtHUakAaoiMoa3GdgfR1PwJsLfThLNy5Pl5hPg2xqj+duEHlzAaP8VXhcWtkUMMRSMTf6BYuG1warL47ZokHa6ZUE5SSIzq2XYba0A9WAwjFezc0w8=
